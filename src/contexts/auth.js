@@ -91,7 +91,16 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, loading, signUp, signOut, signIn }}>
+    <AuthContext.Provider
+      value={{
+        signed: !!user,
+        user,
+        loading,
+        signUp,
+        signOut,
+        signIn,
+        loadingAuth
+      }}>
       {/* !! transforma para boolean */}
       {children}
     </AuthContext.Provider>
