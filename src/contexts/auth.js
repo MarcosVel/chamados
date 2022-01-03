@@ -53,6 +53,33 @@ function AuthProvider({ children }) {
       })
   }
 
+  async function signIn(email, password) {
+    setLoadingAuth(true);
+
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(async (value) => {
+        let uid = value.user.uid;
+
+        const userProfile = await firebase.firestore().collection('users')
+          .doc(uid).get();
+
+        let data = {
+          uid: uid,
+          name: userProfile.data().nome,
+          avavatarUrl: userProfile.data().avatarUrl,
+          email: value.user.email
+        }
+
+        setUser(data);
+        storageUser(data);
+        setLoadingAuth(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoadingAuth(false);
+      })
+  }
+
   function storageUser(data) {
     localStorage.setItem('SistemaUser', JSON.stringify(data));
   }
@@ -64,7 +91,16 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, loading, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{
+        signed: !!user,
+        user,
+        loading,
+        signUp,
+        signOut,
+        signIn,
+        loadingAuth
+      }}>
       {/* !! transforma para boolean */}
       {children}
     </AuthContext.Provider>
