@@ -76,7 +76,7 @@ function AuthProvider({ children }) {
         setUser(data);
         storageUser(data);
         setLoadingAuth(false);
-        toast.success('Bem vindo novamente!');
+        toast.info('Bem vindo novamente!');
       })
       .catch((error) => {
         console.log(error);
