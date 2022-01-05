@@ -49,3 +49,34 @@
 .sidebar a svg {
   margin-right: 8px;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    max-width: none;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
+  }
+
+  .sidebar a {
+    float: left;
+  }
+
+  .sidebar div {
+    background-image: none;
+    height: auto;
+    padding: 12px 0;
+  }
+
+  .sidebar a svg {
+    width: 18px;
+  }
+
+  .sidebar div img {
+    max-width: 40px;
+  }
+}

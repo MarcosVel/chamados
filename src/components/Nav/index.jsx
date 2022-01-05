@@ -15,18 +15,20 @@ function Nav() {
         <img src={user.avatarUrl == null ? Avatar : user.avatarUrl} alt="User avatar" />
       </div>
 
-      <Link to='/dashboard'>
-        <FiHome color='#fff' size='24' />
-        Chamados
-      </Link>
-      <Link to='/profile'>
-        <FiUser color='#fff' size='24' />
-        Chamados
-      </Link>
-      <Link to='/settings'>
-        <FiSettings color='#fff' size='24' />
-        Chamados
-      </Link>
+      <nav>
+        <Link to='/dashboard'>
+          <FiHome color='#fff' size='24' />
+          Chamados
+        </Link>
+        <Link to='/profile'>
+          <FiUser color='#fff' size='24' />
+          Clientes
+        </Link>
+        <Link to='/settings'>
+          <FiSettings color='#fff' size='24' />
+          Configurações
+        </Link>
+      </nav>
     </div>
 
   )
