@@ -20,7 +20,7 @@ function Nav() {
           <FiHome color='#fff' size='24' />
           Chamados
         </Link>
-        <Link to='/profile'>
+        <Link to='/customers'>
           <FiUser color='#fff' size='24' />
           Clientes
         </Link>
