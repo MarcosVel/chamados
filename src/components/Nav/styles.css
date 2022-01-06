@@ -4,8 +4,8 @@
   width: 100%;
   max-width: 300px;
   background-color: #181c2e;
-  position: fixed;
-  height: 100%;
+  position: relative;
+  height: 100vh;
   overflow: auto;
 }
 
