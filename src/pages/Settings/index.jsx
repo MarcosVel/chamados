@@ -17,6 +17,26 @@ function Settings() {
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
   const [imageAvatar, setImageAvatar] = useState(null);
 
+  function handleFile(e) {
+    // console.log(e.target.files[0]);
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+
+      if(image.type === 'image/jpg' || image.type === 'image/jpeg'|| image.type === 'image/png') {
+        setImageAvatar(image);
+        setAvatarUrl(URL.createObjectURL(image));
+      } else {
+        alert('Envie uma imagem do tipo PNG, JPEG ou JPG');
+        setImageAvatar(null);
+        return null;
+      }
+    }
+  }
+
+  function handleUpload() {
+
+  }
+
   async function handleSave(e) {
     e.preventDefault();
 
@@ -40,6 +60,9 @@ function Settings() {
           toast.error('Erro ao atualizar nome');
         })
     }
+    else if (name !== '' && imageAvatar !== null) {
+      handleUpload();
+    }
   }
 
   return (
@@ -58,7 +81,7 @@ function Settings() {
                 <FiUpload color='#fff' size='24' />
               </span>
 
-              <input type="file" accept='image/*' /><br />
+              <input type="file" accept='image/*' onChange={handleFile} /><br />
               {avatarUrl == null ?
                 <img src={Avatar} alt="Avatar" />
                 :
