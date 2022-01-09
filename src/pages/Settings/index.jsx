@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { FiSettings, FiUpload } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiUpload } from 'react-icons/fi';
 import Avatar from '../../assets/avatar.png';
 import Nav from '../../components/Nav';
 import Title from '../../components/Title';
@@ -8,7 +8,7 @@ import '../../helpers/globals.css';
 import './styles.css';
 
 function Settings() {
-  const { user } = useContext(AuthContext);
+  const { user, signOut } = useContext(AuthContext);
 
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
@@ -30,22 +30,29 @@ function Settings() {
                 <FiUpload color='#fff' size='24' />
               </span>
 
-              <input type="file" accept='image/' /><br />
+              <input type="file" accept='image/*' /><br />
               {avatarUrl == null ?
                 <img src={Avatar} alt="Avatar" />
                 :
-                <img src={user.avatarUrl} alt="User image" />
+                <img src={avatarUrl} width='250' height='250' alt="User" />
               }
             </label>
 
-            <label>Nome</label>
+            <label className="form-label">Nome</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
 
-            <label>E-mail</label>
+            <label className="form-label">E-mail</label>
             <input type="text" value={email} disabled={true} />
 
             <button type="submit">Salvar</button>
           </form>
+        </div>
+
+        <div className="container">
+          <button type='submit' className="btn-logout" onClick={() => signOut()}>
+            <FiLogOut size='22' style={{ marginRight: '8px' }} />
+            Sair
+          </button>
         </div>
       </div>
     </div>
