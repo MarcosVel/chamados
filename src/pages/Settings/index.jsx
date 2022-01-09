@@ -1,18 +1,46 @@
 import { useContext, useState } from 'react';
 import { FiLogOut, FiSettings, FiUpload } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Avatar from '../../assets/avatar.png';
 import Nav from '../../components/Nav';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 import '../../helpers/globals.css';
+import firebase from '../../services/firebaseConnection';
 import './styles.css';
 
 function Settings() {
-  const { user, signOut } = useContext(AuthContext);
+  const { user, signOut, setUser, storageUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const [imageAvatar, setImageAvatar] = useState(null);
+
+  async function handleSave(e) {
+    e.preventDefault();
+
+    if (imageAvatar == null && name !== '') {
+      await firebase.firestore().collection('users')
+        .doc(user.uid)
+        .update({
+          nome: name
+        })
+        .then(() => {
+          let data = {
+            ...user,
+            nome: name
+          };
+          setUser(data);
+          storageUser(data);
+          toast.success('Nome atualizado!');
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error('Erro ao atualizar nome');
+        })
+    }
+  }
 
   return (
     <div className="page">
@@ -24,7 +52,7 @@ function Settings() {
         </Title>
 
         <div className="container">
-          <form className="form-profile">
+          <form className="form-profile" onSubmit={handleSave}>
             <label className='label-avatar'>
               <span>
                 <FiUpload color='#fff' size='24' />

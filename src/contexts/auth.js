@@ -69,7 +69,7 @@ function AuthProvider({ children }) {
         let data = {
           uid: uid,
           name: userProfile.data().nome,
-          avavatarUrl: userProfile.data().avatarUrl,
+          avatarUrl: userProfile.data().avatarUrl,
           email: value.user.email
         }
 
@@ -105,7 +105,9 @@ function AuthProvider({ children }) {
         signUp,
         signOut,
         signIn,
-        loadingAuth
+        loadingAuth,
+        setUser,
+        storageUser
       }}>
       {/* !! transforma para boolean */}
       {children}
