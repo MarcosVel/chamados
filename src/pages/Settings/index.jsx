@@ -1,18 +1,98 @@
 import { useContext, useState } from 'react';
 import { FiLogOut, FiSettings, FiUpload } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Avatar from '../../assets/avatar.png';
 import Nav from '../../components/Nav';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 import '../../helpers/globals.css';
+import firebase from '../../services/firebaseConnection';
 import './styles.css';
 
 function Settings() {
-  const { user, signOut } = useContext(AuthContext);
+  const { user, signOut, setUser, storageUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const [imageAvatar, setImageAvatar] = useState(null);
+
+  function handleFile(e) {
+    // console.log(e.target.files[0]);
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+
+      if (image.type === 'image/jpg' || image.type === 'image/jpeg' || image.type === 'image/png') {
+        setImageAvatar(image);
+        setAvatarUrl(URL.createObjectURL(image));
+      } else {
+        alert('Envie uma imagem do tipo PNG, JPEG ou JPG');
+        setImageAvatar(null);
+        return null;
+      }
+    }
+  }
+
+  async function handleUpload() {
+    const currentUid = user.uid;
+
+    await firebase.storage()
+      .ref(`images/${currentUid}/${imageAvatar.name}`)
+      .put(imageAvatar)
+      .then(async () => {
+        // console.log('Imagem enviada com sucesso');
+        await firebase.storage().ref(`images/${currentUid}`)
+          .child(imageAvatar.name).getDownloadURL()
+          .then(async (url) => {
+            let urlFoto = url;
+
+            await firebase.firestore().collection('users')
+              .doc(user.uid)
+              .update({
+                avatarUrl: urlFoto,
+                nome: name
+              })
+              .then(() => {
+                let data = {
+                  ...user,
+                  avatarUrl: urlFoto,
+                  nome: name
+                };
+                setUser(data);
+                storageUser(data);
+                toast.success('Imagem atualizada!');
+              })
+          })
+      })
+  }
+
+  async function handleSave(e) {
+    e.preventDefault();
+
+    if (imageAvatar == null && name !== '') {
+      await firebase.firestore().collection('users')
+        .doc(user.uid)
+        .update({
+          nome: name
+        })
+        .then(() => {
+          let data = {
+            ...user,
+            nome: name
+          };
+          setUser(data);
+          storageUser(data);
+          toast.success('Nome atualizado!');
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error('Erro ao atualizar nome');
+        })
+    }
+    else if (name !== '' && imageAvatar !== null) {
+      handleUpload();
+    }
+  }
 
   return (
     <div className="page">
@@ -24,13 +104,13 @@ function Settings() {
         </Title>
 
         <div className="container">
-          <form className="form-profile">
+          <form className="form-profile" onSubmit={handleSave}>
             <label className='label-avatar'>
               <span>
                 <FiUpload color='#fff' size='24' />
               </span>
 
-              <input type="file" accept='image/*' /><br />
+              <input type="file" accept='image/*' onChange={handleFile} /><br />
               {avatarUrl == null ?
                 <img src={Avatar} alt="Avatar" />
                 :

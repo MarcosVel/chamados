@@ -30,6 +30,7 @@
   -webkit-filter: drop-shadow(2px 3px 6px #181c2e);
   filter: drop-shadow(2px 3px 6px #181c2e);
   object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .sidebar a {
