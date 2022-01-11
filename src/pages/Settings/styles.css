@@ -36,6 +36,7 @@
   object-fit: cover;
   max-width: 190px;
   max-height: 190px;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .label-avatar span {
