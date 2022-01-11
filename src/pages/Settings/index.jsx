@@ -22,7 +22,7 @@ function Settings() {
     if (e.target.files[0]) {
       const image = e.target.files[0];
 
-      if(image.type === 'image/jpg' || image.type === 'image/jpeg'|| image.type === 'image/png') {
+      if (image.type === 'image/jpg' || image.type === 'image/jpeg' || image.type === 'image/png') {
         setImageAvatar(image);
         setAvatarUrl(URL.createObjectURL(image));
       } else {
@@ -33,8 +33,37 @@ function Settings() {
     }
   }
 
-  function handleUpload() {
+  async function handleUpload() {
+    const currentUid = user.uid;
 
+    await firebase.storage()
+      .ref(`images/${currentUid}/${imageAvatar.name}`)
+      .put(imageAvatar)
+      .then(async () => {
+        // console.log('Imagem enviada com sucesso');
+        await firebase.storage().ref(`images/${currentUid}`)
+          .child(imageAvatar.name).getDownloadURL()
+          .then(async (url) => {
+            let urlFoto = url;
+
+            await firebase.firestore().collection('users')
+              .doc(user.uid)
+              .update({
+                avatarUrl: urlFoto,
+                nome: name
+              })
+              .then(() => {
+                let data = {
+                  ...user,
+                  avatarUrl: urlFoto,
+                  nome: name
+                };
+                setUser(data);
+                storageUser(data);
+                toast.success('Imagem atualizada!');
+              })
+          })
+      })
   }
 
   async function handleSave(e) {
