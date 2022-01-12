@@ -1,0 +1,17 @@
+.flex {
+  display: flex;
+  max-width: 600px;
+  gap: 36px;
+}
+
+.btn-reset {
+  flex: unset !important;
+  width: 30%;
+  background-color: transparent;
+  color: #181c2e;
+}
+
+.btn-reset:hover {
+  background-color: #181c2e;
+  color: #fff;
+}
