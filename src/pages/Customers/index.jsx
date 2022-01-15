@@ -66,7 +66,7 @@ function Customers() {
 
             <div className="flex">
               <button type='reset' className="btn-reset" onClick={() => cleanInputs()}>Limpar</button>
-              <button type="submit">Cadastrar</button>
+              <button type="submit" className="btn-register">Cadastrar</button>
             </div>
           </form>
         </div>

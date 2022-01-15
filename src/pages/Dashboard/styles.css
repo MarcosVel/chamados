@@ -1,0 +1,33 @@
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dashboard span {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.new {
+  float: right;
+  background-color: #2f89c5;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.new svg {
+  margin-right: 8px;
+}
+
+.new:hover {
+  background-color: #37a0e6;
+  transform: scale(1.05);
+}
