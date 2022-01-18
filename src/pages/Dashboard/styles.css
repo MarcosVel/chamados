@@ -22,6 +22,11 @@
   transition: 0.2s;
 }
 
+.mtb-24 {
+  margin: 24px 0;
+}
+
+
 .new svg {
   margin-right: 8px;
 }
@@ -29,4 +34,54 @@
 .new:hover {
   background-color: #37a0e6;
   transform: scale(1.05);
+}
+
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+
+table th, table td {
+  padding: .62em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+table td .action {
+  border: 0;
+  padding: 5px;
+  margin-right: 5px;
+  align-items: center;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+table td .action svg {
+  vertical-align: middle;
+}
+
+table td .badge {
+  padding: 5px;
+  border-radius: 3px;
+  color: #fff;
 }
