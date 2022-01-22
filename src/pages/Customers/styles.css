@@ -11,6 +11,10 @@
   color: #181c2e;
 }
 
+.btn-register {
+  flex: 1;
+}
+
 .btn-reset:hover {
   background-color: #181c2e;
   color: #fff;
