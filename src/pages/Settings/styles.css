@@ -56,12 +56,13 @@
   font-size: 18px;
 }
 
-.form-profile input {
+.form-profile input, textarea, select {
   padding: 12px;
   max-width: 600px;
   margin-top: 8px;
   margin-bottom: 16px;
   border: 2px solid #ececec;
+  border-radius: 7px;
 }
 
 .form-profile input:disabled {

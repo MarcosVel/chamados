@@ -7,6 +7,7 @@ import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import Settings from '../pages/Settings';
 import Customers from '../pages/Customers';
+import New from '../pages/New';
 
 export default function Router() {
   return (
@@ -17,6 +18,7 @@ export default function Router() {
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
       <Route exact path="/settings" component={Settings} isPrivate />
       <Route exact path="/customers" component={Customers} isPrivate />
+      <Route exact path="/new" component={New} isPrivate />
     </Switch>
   )
 }
