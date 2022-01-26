@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Nav from '../../components/Nav';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
@@ -49,10 +50,28 @@ function New() {
     loadCustomers();
   })
 
-  function handleRegister(e) {
+  async function handleRegister(e) {
     e.preventDefault();
 
-    alert('teste')
+    await firebase.firestore().collection('chamados')
+      .add({
+        created: new Date(),
+        cliente: customers[customerSelected].nomeFantasia,
+        clienteId: customers[customerSelected].id,
+        assunto: assunto,
+        status: status,
+        descricao: descricao,
+        userId: user.uid
+      })
+      .then(() => {
+        toast.success('Chamado criado com sucesso!');
+        setDescricao('');
+        setCustomerSelected(0);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Ops, erro ao criar chamado!')
+      })
   }
 
   function handleChangeStatus(e) {
