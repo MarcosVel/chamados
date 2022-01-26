@@ -1,13 +1,53 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import Nav from '../../components/Nav';
 import Title from '../../components/Title';
+import { AuthContext } from '../../contexts/auth';
+import firebase from '../../services/firebaseConnection';
 import './styles.css';
 
 function New() {
   const [assunto, setAssunto] = useState('Suporte');
   const [status, setStatus] = useState('Aberto');
-  const [descricao, setDescricao] = useState('')
+  const [descricao, setDescricao] = useState('');
+  const [customers, setCustomers] = useState([]);
+  const [loadCustomers, setLoadCustomers] = useState(true);
+  const [customerSelected, setCustomerSelected] = useState(0);
+
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    async function loadCustomers() {
+      await firebase.firestore().collection('customers')
+        .get()
+        .then((snapshot) => {
+          let lista = [];
+          snapshot.forEach((doc) => {
+            lista.push({
+              id: doc.id,
+              nomeFantasia: doc.data().nomeFantasia,
+            })
+          })
+
+          if (lista.length === 0) {
+            console.log('Nenhuma empresa encontrada');
+            setCustomers([{ id: '1', nomeFantasia: 'Freela' }]);
+            setLoadCustomers(false);
+            return;
+          }
+
+          setCustomers(lista);
+          setLoadCustomers(false);
+        })
+        .catch(err => {
+          console.log('Deu erro', err);
+          setLoadCustomers(false);
+          setCustomers([{ id: '1', nomeFantasia: '' }]);
+        })
+    }
+
+    loadCustomers();
+  })
 
   function handleRegister(e) {
     e.preventDefault();
@@ -17,6 +57,12 @@ function New() {
 
   function handleChangeStatus(e) {
     setStatus(e.target.value);
+  }
+
+  function handleChangeCustomers(e) {
+    // console.log('index cliente selecionado', e.target.value);
+    // console.log('cliente selecionado', customers[e.target.value]);
+    setCustomerSelected(e.target.value);
   }
 
   return (
@@ -31,9 +77,15 @@ function New() {
         <div className="container">
           <form className="form-profile" onSubmit={handleRegister}>
             <label>Cliente</label>
-            <select name="" id="">
-              <option key={1} value={1}>Sujeito Programador</option>
-            </select>
+            {loadCustomers ?
+              <input type="text" disabled={true} value='Carregando clientes...' style={{ minHeight: '45px' }} />
+              :
+              <select value={customerSelected} onChange={handleChangeCustomers}>
+                {customers.map((item, index) => (
+                  <option key={item.id} value={index}>{item.nomeFantasia}</option>
+                ))}
+              </select>
+            }
 
             <label>Assunto</label>
             <select value={assunto} onChange={(e) => setAssunto(e.target.value)}>
