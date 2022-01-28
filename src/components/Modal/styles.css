@@ -1,0 +1,73 @@
+.modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.container-modal {
+  margin: 16px 24px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  max-height: 400px;
+  padding: 26px 42px;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgb(75, 75, 75)
+}
+
+.container-modal > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.close {
+  background-color: #FD441B;
+  border: 0;
+  padding: 5px 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.close svg {
+  margin-right: 5px;
+}
+
+.modal h2 {
+  font-size: 24px;
+}
+
+.modal span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.modal span a {
+  font-weight: 400;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.row:nth-child(3) {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modal p {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
