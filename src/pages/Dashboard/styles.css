@@ -74,6 +74,11 @@ table td .action {
   align-items: center;
   display: inline-block;
   border-radius: 4px;
+  transition: .2s;
+}
+
+.action:hover {
+  opacity: .7;
 }
 
 table td .action svg {
