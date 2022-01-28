@@ -19,6 +19,7 @@ export default function Router() {
       <Route exact path="/settings" component={Settings} isPrivate />
       <Route exact path="/customers" component={Customers} isPrivate />
       <Route exact path="/new" component={New} isPrivate />
+      <Route exact path="/new/:id" component={New} isPrivate />
     </Switch>
   )
 }
