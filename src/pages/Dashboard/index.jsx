@@ -71,6 +71,19 @@ function Dashboard() {
     setLoadingMore(false);
   }
 
+  async function handleMore() {
+    setLoadingMore(true);
+    await listRef.startAfter(lastDocs).limit(5)
+      .get()
+      .then((snapshot) => {
+        updateState(snapshot)
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Erro ao puxar dados');
+      })
+  }
+
   return (
     <div className="page">
       <Nav />
@@ -133,6 +146,11 @@ function Dashboard() {
                     ))}
                   </tbody>
                 </table>
+
+                {loadingMore && <h3 style={{ textAlign: 'center', marginTop: 15 }}>Buscando dados...</h3>}
+                {!loadingMore && !isEmpty &&
+                  <button className="btn-more" onClick={handleMore}>Buscar mais</button>
+                }
               </>
             }
           </>
