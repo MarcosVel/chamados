@@ -46,13 +46,20 @@ function AuthProvider({ children }) {
             setUser(data);
             storageUser(data);
             setLoadingAuth(false);
-            toast.success('Criado com sucesso!');
+            toast.success('Cadastrado com sucesso!');
           })
       })
       .catch((error) => {
+        if (password.length < 5) {
+          toast.error('A senha deve ter no mínimo 6 dígitos')
+          setLoadingAuth(false);
+          return;
+        }
+      
         console.log(error);
         setLoadingAuth(false);
         toast.error('Ops! Algo deu errado');
+
       })
   }
 
