@@ -53,7 +53,8 @@
   font-size: 16px;
 }
 
-.modal span a {
+.modal span > p {
+  display: inline-block;
   font-weight: 400;
 }
 
@@ -70,4 +71,5 @@
 .modal p {
   margin-top: 8px;
   white-space: pre-wrap;
+  font-size: 16px;
 }
