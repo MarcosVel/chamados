@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FiEdit2, FiMessageSquare, FiPlus, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Modal from '../../components/Modal';
 import Nav from "../../components/Nav";
 import Title from "../../components/Title";
 import firebase from '../../services/firebaseConnection';
@@ -16,8 +17,25 @@ function Dashboard() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [lastDocs, setLastDocs] = useState();
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [detail, setDetail] = useState();
 
   useEffect(() => {
+    async function loadChamados() {
+      await listRef.limit(5)
+        .get()
+        .then((snapshot) => {
+          updateState(snapshot);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error('Erro ao buscar chamados');
+          setLoadingMore(false);
+        })
+
+      setLoading(false);
+    }
+
     loadChamados();
 
     // Quando componente for desmontado
@@ -25,21 +43,6 @@ function Dashboard() {
 
     }
   }, []);
-
-  async function loadChamados() {
-    await listRef.limit(5)
-      .get()
-      .then((snapshot) => {
-        updateState(snapshot);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Erro ao buscar chamados');
-        setLoadingMore(false);
-      })
-
-    setLoading(false);
-  }
 
   async function updateState(snapshot) {
     const isCollectionEmpty = snapshot.size === 0;
@@ -54,7 +57,7 @@ function Dashboard() {
           cliente: doc.data().cliente,
           clienteId: doc.data().clienteId,
           created: doc.data().created,
-          createdFromated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
+          createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
           status: doc.data().status,
           descricao: doc.data().descricao,
         })
@@ -82,6 +85,11 @@ function Dashboard() {
         console.log(err);
         toast.error('Erro ao puxar dados');
       })
+  }
+
+  function togglePostModal(item) {
+    setShowPostModal(!showPostModal); // show or hide
+    setDetail(item)
   }
 
   return (
@@ -133,9 +141,9 @@ function Dashboard() {
                         <td data-label='Status'>
                           <span className="badge" style={{ backgroundColor: item.status === 'Aberto' ? '#5cb85c' : item.status === 'Progresso' ? '#3583f6' : '#999' }}>{item.status}</span>
                         </td>
-                        <td data-label='Cadastrado'>{item.createdFromated}</td>
+                        <td data-label='Cadastrado'>{item.createdFormated}</td>
                         <td data-label='Ações'>
-                          <button className="action" style={{ backgroundColor: '#3583f6' }}>
+                          <button className="action" style={{ backgroundColor: '#3583f6' }} onClick={() => togglePostModal(item)}>
                             <FiSearch color='#fff' size='17' />
                           </button>
                           <button className="action" style={{ backgroundColor: '#f6a935' }}>
@@ -156,6 +164,8 @@ function Dashboard() {
           </>
         }
       </div>
+
+      {showPostModal && <Modal conteudo={detail} close={togglePostModal} />}
     </div>
   )
 }
