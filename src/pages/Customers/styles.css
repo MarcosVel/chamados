@@ -19,3 +19,24 @@
   background-color: #181c2e;
   color: #fff;
 }
+
+.phone {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  align-items: center;
+}
+
+.phone > div {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+input:focus {
+  border-color: #cecece;
+}
+
+button:focus {
+  border-color: #0099ff;
+}
